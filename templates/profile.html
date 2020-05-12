@@ -1,0 +1,108 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="row">
+    <div style="width: 272px;"></div>
+    <div style="width: 300px;">
+        <div style="margin-top: 80px;">
+            <div class="container col-md6 border rounded shadow p-4 mb-4 bg-white">
+                <img src="{{user.get_avatar(256)}}" class="img-fluid" style="border-radius: 2px;">
+                {% if current_user.id == user.id %}
+                <a href="/user/{{current_user.id}}/edit" class="card-button" style='text-decoration: none;color: white;margin-top: 10px; border-radius: 2px;'>Редактировать</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div style="width: 750px;; margin-left: 25px;">
+        <div class="container col-md6 border rounded shadow p-4 mb-4 bg-white" style="margin-top: 80px;">
+            <h2 class="font-weight-light">{{user.name}}</h2>
+            <h5 class="font-weight-light">{{user.status}}</h5>
+            <div class="dropdown-divider"></div>
+            <h5 class="font-weight-light">Обо мне: {{user.about_me}}</h5>
+            <div class="dropdown-divider"></div>
+            <h5 class="font-weight-light">Дата регистрации: {{user.created_date}}</h5>
+            <h5 class="font-weight-light">Опубликовано постов: {{count_of_my_posts}}</h5>
+        </div>
+        <div>
+            <ul class="list list-group">
+            
+            {% for item in news%}
+
+            <li style="list-style-type: none;"><div class="container col-md6 border rounded shadow p-4 mb-4 bg-white" style="margin-top: 1px;background-color: #fffff;">
+
+                    <div>
+                        {% if current_user.is_authenticated %}
+                        
+                        <h4 class="display-4">{% if item.is_private and item.user == current_user %} {{item.title}} [Личное] {% else %} {{item.title}} {% endif %}</h4>
+                                                                                                                                                                     
+                        <p>{{item.description}}</p>
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" id="b{{item.id}}" data-target="#c{{item.id}}">Читать дальше..</button>
+                        <div id="c{{item.id}}" class="collapse">
+                            <script>
+                               function decodeHTMLEntities(text) {
+                                var textArea = document.createElement('textarea');
+                                textArea.innerHTML = text;
+                                return textArea.value;
+                               }
+                               var content = decodeHTMLEntities('{{item.content}}')
+                               c{{item.id}}.insertAdjacentHTML('afterbegin', content);
+                            </script>
+                            
+                        </div>
+                        <div>Автор - {{item.user.name}} Дата создания - {{item.created_date}}</div>
+                        {% if current_user == item.user or current_user.is_admin %}
+                        
+                        <div><small class="text-muted">Теги - {{item.tags}}</small><a href="/postdelete/{{ item.id }}" class="float-right bottom-icon rounded" data-toggle="tooltip" data-placement="bottom" title="Удалить"><img src="{{ url_for('static', filename='img/deletebtn.png') }}" style="max-width: 45px;max-height: 45px;"></a> <a href="/editpost/{{ item.id }}" class="float-right bottom-icon rounded" data-toggle="tooltip" data-placement="bottom" title="Редактировать"><img src="{{ url_for('static', filename='img/editbtn.png') }}" style="max-width: 45px;max-height: 45px;"></a></div>
+                        
+                        {% else %}
+                        
+                        <div>
+                            <small class="text-muted">Теги - {{item.tags}}</small>
+                            
+                            {% set post_in_favourite = [] %}
+                            {% for post in current_user.favourite_posts%}
+                                {% if post.post_id == item.id %}
+                                    {% set _ = post_in_favourite.append(1)%}
+                                {% endif %}
+                            {% endfor %}
+                            {% if post_in_favourite %}
+                            <a class="float-right bottom-icon rounded" href="favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="Удалить из избранного"><img src="{{ url_for('static', filename='img/favbtnafter.png') }}" style="max-width: 45px;max-height: 45px;"></a>
+                            {% else %}
+                            <a class="float-right bottom-icon rounded" href="favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="В избранное"><img src="{{ url_for('static', filename='img/favbtn.png') }}" style="max-width: 45px;max-height: 45px;"></a>
+                            {% endif %}
+
+                        </div>
+                        
+                        {% endif %}
+                        
+                        {% else %}
+                        <h4 class="display-4">{{item.title}}</h4>
+                                                                                                                                                                     
+                        <p>{{item.description}}</p>
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" id="b{{item.id}}" data-target="#c{{item.id}}">Читать дальше..</button>
+                        <div id="c{{item.id}}" class="collapse">
+                            <script>
+                               function decodeHTMLEntities(text) {
+                                var textArea = document.createElement('textarea');
+                                textArea.innerHTML = text;
+                                return textArea.value;
+                               }
+                               var content = decodeHTMLEntities('{{item.content}}')
+                               c{{item.id}}.insertAdjacentHTML('afterbegin', content);
+                            </script>
+                            
+                        </div>
+                        <div>Автор - {{item.user.name}} Дата создания - {{item.created_date}}</div>
+                        <div><small class="text-muted">Теги - {{item.tags}}</small></div>
+                        
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

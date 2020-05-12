@@ -1,0 +1,92 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<div class="container col-md6 border rounded bg-white">
+    <div class="container" style="margin-top: 70px;">
+        <h1 class="font-weight-light">О сайте</h1>
+        <p>Мы команда юных специалистов, которые мечтали создать информационный сайт.Хотели поделиться информацией?С удовольствием делитесь!Сохранять посты для того, чтобы посмотреть потом?Да,пожалуйста!Удобный и красивый дизайн? Любуйтесь!</p>
+    </div>
+
+    <div>
+    <h1 class="font-weight-light">Создатели проекта</h1>
+
+    <div style="overflow: hidden;">
+        <div class="card float-left shadow p-4 mb-4 " style="margin-right: 10%;
+                                                             margin-left: 5%; 
+                                                             width: 40%;">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="static/img/img_avatar1.jpg" alt="Regina" style="height: 100%;">
+                </div>
+                <div class="flip-card-back" style="background-color: #292a2c;"> 
+                  <p>We love that guy</p>
+                </div>
+              </div>
+            </div>
+            
+            <h1>Регина</h1>
+            <p class="card-title">веб-дизайнер</p>
+            <p><a href="https://vk.com/fkhr005" class="card-button" style='text-decoration: none;color: white;'>Contact</a></p>
+        </div>
+
+        <div class="card shadow p-4 mb-4 " style="width: 40%;
+                                                  margin-left: 5%;">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="static/img/img_avatar2.jpg" alt="Rasul" style="height: 100%;">
+                </div>
+                <div class="flip-card-back" style="background-color: #4b3b41;">
+                  <h4 class="font-weight-light" style="margin-top: 40%;">Цвет настроения ДжоДжо. Любит аниме и мороженое. Отвечает за документацию на сайте.</h4>
+                </div>
+              </div>
+            </div>
+            <h1>Расуль</h1>
+            <p class="card-title">Техрайтер </p>
+            <p><a href="https://vk.com/invee" class="card-button" style='text-decoration: none;color: white;'>Contact</a></p>
+        </div>
+    </div>
+    <div style="overflow: hidden;"> 
+        <div class="card float-left shadow p-4 mb-4" style="margin-right: 10%;
+                                                            margin-left: 5%;
+                                                            width: 40%;">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="static/img/img_avatar3.jpg" alt="Daniil" style="height: 100%;">
+                </div>
+                <div class="flip-card-back" style="background-color: #3a506a;">
+                  <h4 class="font-weight-light" style="margin-top: 40%;">Не парится. Любит слушать музыку. Местный стихоплёт.</h4>
+                </div>
+              </div>
+            </div>
+            <h1>Даниил</h1>
+            <p class="card-title">контент-менеджер</p>
+            <p><a href="https://vk.com/cooldaniil" class="card-button" style='text-decoration: none;color: white;'>Contact</a></p>
+        </div>
+
+        <div class="card shadow p-4 mb-4" style="width: 40%;
+                                                 margin-left: 5%;">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="static/img/img_avatar4.jpg" alt="Bulat" style="height: 100%;">
+                </div>
+                <div class="flip-card-back" style="background-color: #292a2c;">
+                
+                    <h4 class="font-weight-light" style="margin-top: 40%;">Ненавидит веб, но написал сайт. Сидит на тёмной теме. Поясняет за код.</h4>
+                
+                </div>
+              </div>
+            </div>
+            <h1>Булат</h1>
+            <p class="card-title">веб-разработчик</p>
+            <p><a href="https://vk.com/bulatkotdusov" class="card-button" style='text-decoration: none;color: white;'>Contact</a></p>
+        </div>
+     </div>
+        
+    </div>
+</div>
+{% endblock %}

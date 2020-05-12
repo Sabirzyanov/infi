@@ -1,0 +1,191 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-top: 70px">
+    <h1 class="font-weight-light">{{ title }}</h1>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        {% if count_of_posts > 0 %}
+        <div class="col-sm-8">
+            <ul class="list list-group">
+            
+            {% for item in news%}
+
+            <li style="list-style-type: none;"><div class="container col-md6 border rounded shadow p-4 mb-4 bg-white" style="margin-top: 1px;background-color: #fffff;">
+
+                    <div>
+                        {% if current_user.is_authenticated %}
+                        
+                        <h4 class="display-4">{% if item.is_private and item.user == current_user %} {{item.title}} [Личное] {% else %} {{item.title}} {% endif %}</h4>
+                                                                                                                                                                     
+                        <p>{{item.description}}</p>
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" id="b{{item.id}}" data-target="#c{{item.id}}">Читать дальше..</button>
+                        <div id="c{{item.id}}" class="collapse">
+                            <script>
+                               function decodeHTMLEntities(text) {
+                                var textArea = document.createElement('textarea');
+                                textArea.innerHTML = text;
+                                return textArea.value;
+                               }
+                               var content = decodeHTMLEntities('{{item.content}}')
+                               c{{item.id}}.insertAdjacentHTML('afterbegin', content);
+                            </script>
+                            
+                        </div>
+                        <div>Автор - <a style="text-decoration: none;" href="user/{{item.user.id}}">{{item.user.name}}</a> Дата создания - {{item.created_date}}</div>
+                        {% if current_user == item.user or current_user.is_admin %}
+                        
+                        <div><small class="text-muted">Теги - {{item.tags}}</small><a href="/postdelete/{{ item.id }}" class="float-right bottom-icon rounded" data-toggle="tooltip" data-placement="bottom" title="Удалить"><img src="static/img/deletebtn.png" style="max-width: 45px;max-height: 45px;"></a> <a href="/editpost/{{ item.id }}" class="float-right bottom-icon rounded" data-toggle="tooltip" data-placement="bottom" title="Редактировать"><img src="static/img/editbtn.png" style="max-width: 45px;max-height: 45px;"></a></div>
+                        
+                        {% else %}
+                        
+                        <div>
+                            <small class="text-muted">Теги - {{item.tags}}</small>
+                            
+                            {% set post_in_favourite = [] %}
+                            {% for post in current_user.favourite_posts%}
+                                {% if post.post_id == item.id %}
+                                    {% set _ = post_in_favourite.append(1)%}
+                                {% endif %}
+                            {% endfor %}
+                            {% if post_in_favourite %}
+                            <a class="float-right bottom-icon rounded" href="favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="Удалить из избранного"><img src="static/img/favbtnafter.png" style="max-width: 45px;max-height: 45px;"></a>
+                            {% else %}
+                            <a class="float-right bottom-icon rounded" href="favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="В избранное"><img src="static/img/favbtn.png" style="max-width: 45px;max-height: 45px;"></a>
+                            {% endif %}
+
+                        </div>
+                        
+                        {% endif %}
+                        
+                        {% else %}
+                        <h4 class="display-4">{{item.title}}</h4>
+                                                                                                                                                                     
+                        <p>{{item.description}}</p>
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" id="b{{item.id}}" data-target="#c{{item.id}}">Читать дальше..</button>
+                        <div id="c{{item.id}}" class="collapse">
+                            <script>
+                               function decodeHTMLEntities(text) {
+                                var textArea = document.createElement('textarea');
+                                textArea.innerHTML = text;
+                                return textArea.value;
+                               }
+                               var content = decodeHTMLEntities('{{item.content}}')
+                               c{{item.id}}.insertAdjacentHTML('afterbegin', content);
+                            </script>
+                            
+                        </div>
+                        <div>Автор - {{item.user.name}} Дата создания - {{item.created_date}}</div>
+                        <div><small class="text-muted">Теги - {{item.tags}}</small></div>
+                        
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+
+            {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div class="col-sm-8">
+            <img class="img-fluid" src="{{ url_for('static', filename='img/nothingfound.png') }}" alt="Nothing found :(">
+        </div>
+        {% endif %}
+        <div class="col-sm-2">
+            {% if current_user.is_authenticated %}
+    
+            {% else %}
+            
+            <div class="container col-md6 border rounded shadow p-4 mb-4 bg-white" id='login' style="margin-top: 20px;background-color: #fffff;display: none;">
+                <h4 class="font-weight-light" style="text-align: center;">Авторизация</h4>
+                <form action="" method="post">
+                    {{ loginform.hidden_tag() }}
+                    <p>
+                        {{ loginform.email.label }}<br>
+                        {{ loginform.email(class="form-control", type="email") }}<br>
+                        {% for error in loginform.email.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ loginform.password.label }}<br>
+                        {{ loginform.password(class="form-control", type="password") }}<br>
+                        {% for error in loginform.password.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </p>
+                    <p>{{ loginform.remember_me() }} {{ loginform.remember_me.label }}</p>
+                    <p>{{ loginform.submit(type="submit", class="btn btn-primary") }}</p>
+                     <button type="button" class="btn btn-primary" onclick='toggle("register")'>Регистрация</button>
+                    <div>{{ message }}</div>
+                </form>
+                 
+            </div>
+    
+    
+            <div class="container col-md6 border rounded shadow p-4 mb-4 bg-white" id='register' style="margin-top: 20px;background-color: #fffff;display: none;">
+                <h4 class="font-weight-light" style="text-align: center;">Регистрация</h4>
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    {{ form.csrf_token }}
+                    <p>
+                        {{ form.email.label }}<br>
+                        {{ form.email(class="form-control", type="email") }}<br>
+                        {% for error in form.email.errors %}
+                            <p class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.password.label }}<br>
+                        {{ form.password(class="form-control", type="password") }}<br>
+                        {% for error in form.password.errors %}
+                            <p class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.password_again.label }}<br>
+                        {{ form.password_again(class="form-control", type="password") }}<br>
+                        {% for error in form.password_again.errors %}
+                            <p class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.name.label }}<br>
+                        {{ form.name(class="form-control") }}<br>
+                        {% for error in form.name.errors %}
+                            <p class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+                    </p>
+                    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+                     <button type="button" class="btn btn-primary" onclick='toggle("login")'>Авторизация</button>
+                    {{message}}
+                </form>
+                 
+            </div>        
+    
+            <div id='conten' class="container col-md6 border rounded shadow p-4 mb-4 bg-white" style="margin-top: 20px;background-color: #fffff;"></div> 
+                                                                                          
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script type='text/javascript'>  
+  function toggle(id) {  
+  document.getElementById("conten").innerHTML = document.getElementById(id).innerHTML;  
+  }  
+  toggle('login');  
+</script>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="container col-md6 border rounded shadow p-4 mb-4 bg-white" style="margin-top: 80px;">
+            <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        {{ form.csrf_token }}
+                        <p>
+                            {{ form.name.label }}<br>
+                            {{ form.name(class="form-control") }}<br>
+                            {% for error in form.name.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                        </p>
+
+                        <p>
+                            {{ form.status.label }}<br>
+                            {{ form.status(class="form-control") }}<br>
+                            {% for error in form.status.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                        </p>
+
+                        <p>
+                            {{ form.about_me.label }}<br>
+                            {{ form.about_me(class="form-control") }}<br>
+                            {% for error in form.about_me.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                        </p>
+
+                        <p>{{ form.submit(type="submit", class="card-button", style="width:20%;margin-left:40%;margin-right:40%;") }}</p>
+                        {{message}}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

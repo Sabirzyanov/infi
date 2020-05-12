@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-top: 70px">
+    <h1 class="font-weight-light">{{ title }}</h1>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        {% if count_of_posts > 0 %}
+        <div class="col-sm-8">
+            <ul class="list list-group">
+            
+            {% for item in news%}
+
+            <li style="list-style-type: none;"><div class="container col-md6 border rounded shadow p-4 mb-4 bg-white" style="margin-top: 20px;background-color: #fffff;">
+
+                    <div>
+                        {% if current_user.is_authenticated %}
+                        
+                        <h4 class="display-4">{{item.title}}</h4>
+                                                                                                                                                                     
+                        <p>{{item.description}}</p>
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" id="b{{item.id}}" data-target="#c{{item.id}}">Читать дальше..</button>
+                        <div id="c{{item.id}}" class="collapse">
+                            <script>
+                               function decodeHTMLEntities(text) {
+                                var textArea = document.createElement('textarea');
+                                textArea.innerHTML = text;
+                                return textArea.value;
+                               }
+                               var content = decodeHTMLEntities('{{item.content}}')
+                               c{{item.id}}.insertAdjacentHTML('afterbegin', content);
+                            </script>
+                            
+                        </div>
+                        <div>Автор - {{item.author_name}} Дата создания - {{item.created_date}}</div>
+                        {% if current_user == item.user %}
+                        
+                        <div><small class="text-muted">Теги - {{item.tags}}</small><a href="/postdelete/{{ item.id }}" class="float-right"><img src="static/img/deletebtn.png" style="max-width: 35px;max-height: 35px;"></a> <a href="/editpost/{{ item.id }}" class="float-right"><img src="static/img/editbtn.png" style="max-width: 35px;max-height: 35px;"></a></div>
+                        
+                        {% else %}
+                        
+                        <div>
+                            <small class="text-muted">Теги - {{item.tags}}</small>
+                            <a class="float-right bottom-icon rounded" href="favbtn/{{item.post_id}}" data-toggle="tooltip" data-placement="bottom" title="Удалить из избранного"><img src="static/img/favbtnafter.png" style="max-width: 45px;max-height: 45px;"></a>
+                        </div>
+                        
+                        {% endif %}
+                        
+                        {% else %}
+                        <h4 class="display-4">{{item.title}}</h4>
+                                                                                                                                                                     
+                        <p>{{item.description}}</p>
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" id="b{{item.id}}" data-target="#c{{item.id}}">Читать дальше..</button>
+                        <div id="c{{item.id}}" class="collapse">
+                            <script>
+                               function decodeHTMLEntities(text) {
+                                var textArea = document.createElement('textarea');
+                                textArea.innerHTML = text;
+                                return textArea.value;
+                               }
+                               var content = decodeHTMLEntities('{{item.content}}')
+                               c{{item.id}}.insertAdjacentHTML('afterbegin', content);
+                            </script>
+                            
+                        </div>
+                        <div>Автор - {{item.author_name}} Дата создания - {{item.created_date}}</div>
+                        <div><small class="text-muted">Теги - {{item.tags}}</small></div>
+                        
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+
+            {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div class="col-sm-8"></div>
+        {% endif %}
+        <div class="col-sm-2">
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Infitories</title>
+</head>
+<body style="background: #edeef0;">
+<header>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm fixed-top" style="height:60px;">
+        <a class="navbar-brand" href="/"><img class="img-fluid" src="{{ url_for('static', filename='img/logo.png') }}" alt="Infitories" style="height:45px;"></a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/about">О нас</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Новое</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="/allposts">Все посты</a>
+            </li>
+            {% if current_user.is_authenticated %}
+            <li class="nav-item ">
+                <a class="nav-link" href="/addpost">Новый пост</a>
+            </li>
+            <li class="nav-item dropdown float-left;">
+              <div>
+                  
+                  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    {{ current_user.name}} <img class="img-fluid" style="height: 25px;
+                                                border-radius: 50%;
+                                                float: left;
+                                                margin-right: 4px;" src="{{ current_user.get_avatar(64) }}">
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/user/{{current_user.id}}">Мой профиль</a>
+                    <a class="dropdown-item" href="/favourite">Избранное</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">Выйти</a>
+                  </div>
+              </div>
+            </li>
+            <li class="nav-item">
+                <input class='search' id="search" name="search" type="text" data-toggle="hideseek" placeholder="Поиск.." data-list=".list">
+            </li>
+            {% endif %}
+            
+        </ul>
+    </nav>
+</header>
+<!-- Begin page content -->
+<div role="main" style='padding-right: 15px;'>
+        {% block content %}{% endblock %}
+</div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.hideseek.min.js') }}"></script>     <!--- Searching script -->
+    
+    <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    </script>
+
+</body>
+</html>

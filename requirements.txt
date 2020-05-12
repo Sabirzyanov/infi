@@ -1,0 +1,7 @@
+werkzeug
+wtforms
+sqlalchemy
+flask
+flask-wtf
+flask-login
+psycopg2

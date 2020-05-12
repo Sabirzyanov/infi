@@ -66,9 +66,9 @@
                                 {% endif %}
                             {% endfor %}
                             {% if post_in_favourite %}
-                            <a class="float-right bottom-icon rounded" href="favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="Удалить из избранного"><img src="{{ url_for('static', filename='img/favbtnafter.png') }}" style="max-width: 45px;max-height: 45px;"></a>
+                            <a class="float-right bottom-icon rounded" href="/favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="Удалить из избранного"><img src="{{ url_for('static', filename='img/favbtnafter.png') }}" style="max-width: 45px;max-height: 45px;"></a>
                             {% else %}
-                            <a class="float-right bottom-icon rounded" href="favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="В избранное"><img src="{{ url_for('static', filename='img/favbtn.png') }}" style="max-width: 45px;max-height: 45px;"></a>
+                            <a class="float-right bottom-icon rounded" href="/favbtn/{{item.id}}" data-toggle="tooltip" data-placement="bottom" title="В избранное"><img src="{{ url_for('static', filename='img/favbtn.png') }}" style="max-width: 45px;max-height: 45px;"></a>
                             {% endif %}
 
                         </div>

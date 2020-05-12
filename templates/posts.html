@@ -75,7 +75,7 @@
                             </script>
                             
                         </div>
-                        <div>Автор - {{item.user.name}} Дата создания - {{item.created_date}}</div>
+                        <div>Автор - <a style="text-decoration: none;" href="user/{{item.user.id}}">{{item.user.name}}</a> Дата создания - {{item.created_date}}</div>
                         <div><small class="text-muted">Теги - {{item.tags}}</small></div>
                         
                         {% endif %}

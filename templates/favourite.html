@@ -32,7 +32,7 @@
                             </script>
                             
                         </div>
-                        <div>Автор - {{item.author_name}} Дата создания - {{item.created_date}}</div>
+                        <div>Автор - <a style="text-decoration: none;" href="user/{{item.author_id}}">{{item.author_name}}</a> Дата создания - {{item.created_date}}</div>
                         {% if current_user == item.user %}
                         
                         <div><small class="text-muted">Теги - {{item.tags}}</small><a href="/postdelete/{{ item.id }}" class="float-right"><img src="static/img/deletebtn.png" style="max-width: 35px;max-height: 35px;"></a> <a href="/editpost/{{ item.id }}" class="float-right"><img src="static/img/editbtn.png" style="max-width: 35px;max-height: 35px;"></a></div>
@@ -63,7 +63,7 @@
                             </script>
                             
                         </div>
-                        <div>Автор - {{item.author_name}} Дата создания - {{item.created_date}}</div>
+                        <div>Автор - <a style="text-decoration: none;" href="user/{{item.author_id}}">{{item.author_name}}</a> Дата создания - {{item.created_date}}</div>
                         <div><small class="text-muted">Теги - {{item.tags}}</small></div>
                         
                         {% endif %}
@@ -75,7 +75,9 @@
             </ul>
         </div>
         {% else %}
-        <div class="col-sm-8"></div>
+        <div class="col-sm-8">
+            <img class="img-fluid" src="{{ url_for('static', filename='img/nothingfound.png') }}" alt="Nothing found :(">
+        </div>
         {% endif %}
         <div class="col-sm-2">
             

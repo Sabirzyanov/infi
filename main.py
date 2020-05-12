@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, json, request
+from flask import Flask, request
 from werkzeug.exceptions import abort
 
 from data import db_session
@@ -11,7 +11,6 @@ from data.favourite_posts import FavouritePosts
 from forms import LoginForm, RegisterForm, NewsForm, EditProfileForm
 from flask import redirect
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
-import psycopg2
 import os
 
 app = Flask(__name__)
@@ -23,7 +22,7 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 def main():
     db_session.global_init("db/blogs.sqlite")
     port = int(os.environ.get("PORT", 5000))
-    app.run()#host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)
 
 
 @login_manager.user_loader
@@ -91,7 +90,6 @@ def about():
 
 @app.route("/allposts", methods=['GET', 'POST'])
 def allposts():
-    count_of_my_posts = 0
     form = None
     loginform = None
     session = db_session.create_session()
@@ -104,7 +102,6 @@ def allposts():
             user = session.query(User).filter(User.email == loginform.email.data).first()
             if user and user.check_password(loginform.password.data):
                 login_user(user, remember=loginform.remember_me.data)
-                session.close()
                 return redirect("/")
 
         form = RegisterForm()
@@ -215,6 +212,7 @@ def addfavourite(id):
             created_date=post.created_date,
             tags=post.tags,
             author_name=post.user.name,
+            author_id=post.user.id,
             user_id=current_user.id
         )
         current_user.favourite_posts.append(favpost)
@@ -231,7 +229,6 @@ def addfavourite(id):
 
 @app.route('/favourite', methods=['GET', 'POST'])
 def favourite():
-    session = db_session.create_session()
     posts = current_user.favourite_posts
     count_of_posts = len(list(posts))
 

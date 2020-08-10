@@ -85,7 +85,7 @@ def new():
 
 @app.route("/about")
 def about():
-    return render_template('about.html')
+    return "ХУЙ СОСИ ЗАЕБАЛ БЛЯТЬ"
 
 
 @app.route("/allposts", methods=['GET', 'POST'])
